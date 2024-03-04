@@ -1,8 +1,10 @@
 package com.example.authentication
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import io.realm.kotlin.mongodb.App
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 
@@ -24,7 +26,7 @@ class SignupViewModel : ViewModel() {
 
         val app = App.create("application-0-bshhq") // Initialize Realm App
 
-        runBlocking {
+        viewModelScope.launch {
             app.emailPasswordAuth.registerUser(email.value.toString(),password.value.toString())
         }
     }

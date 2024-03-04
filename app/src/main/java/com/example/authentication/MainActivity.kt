@@ -74,9 +74,9 @@ class MainActivity : ComponentActivity() {
                        //ContactScreen()
 
 //                    val application = LocalContext.current.applicationContext as Application
-                  //  val signInViewModel = viewModel<SignInViewModel>(factory = ViewModelProvider.AndroidViewModelFactory(application))
+                    val signInViewModel = viewModel<SignInViewModel>(factory = ViewModelProvider.AndroidViewModelFactory(application))
 //                    AppNavigation(viewModel =signInViewModel )
-                  //  navgraph(viewModel = signInViewModel, canlogin = signInViewModel.isLoggedIn.value)
+                    navgraph(viewModel = signInViewModel, canlogin = signInViewModel.isLoggedIn.value)
 
                 }
             }
