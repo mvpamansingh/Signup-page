@@ -14,9 +14,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.navArgument
 import com.example.authentication.navigation.AppNavigation
 import com.example.authentication.navigation.ContactScreen
-import com.example.authentication.navigation.UserProfileScreen
+import com.example.authentication.navigation.navgraph
+
 import com.example.authentication.ui.theme.AuthenticationTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,11 +32,13 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     //UserProfileScreen()
-                       ContactScreen()
+                       //ContactScreen()
 
 //                    val application = LocalContext.current.applicationContext as Application
-//                    val signInViewModel = viewModel<SignInViewModel>(factory = ViewModelProvider.AndroidViewModelFactory(application))
+                    val signInViewModel = viewModel<SignInViewModel>(factory = ViewModelProvider.AndroidViewModelFactory(application))
 //                    AppNavigation(viewModel =signInViewModel )
+                    navgraph(viewModel = signInViewModel, canlogin = signInViewModel.isLoggedIn.value)
+
                 }
             }
         }

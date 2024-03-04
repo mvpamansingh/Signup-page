@@ -22,7 +22,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun navgraph(viewModel: SignInViewModel)
+fun navgraph(viewModel: SignInViewModel, canlogin:Boolean)
 {
     val navController = rememberNavController()
     val onboardingFinished = remember { mutableStateOf(false) }
@@ -35,16 +35,15 @@ fun navgraph(viewModel: SignInViewModel)
         ) {
 
             composable("onboarding") {
-                // Track progress
 
                 OnboardingScreen1(onContinue = { navController.navigate("onboarding2") },isFinished = onboardingFinished.value)
 
-                if (onboardingFinished.value) {
-                    // User has finished onboarding
-                    LaunchedEffect(Unit) {
-                        navController.navigate("signing") // Or your first auth screen
-                    }
-                }
+//                if (onboardingFinished.value) {
+//                    // User has finished onboarding
+//                    LaunchedEffect(Unit) {
+//                        navController.navigate("signin")
+//                    }
+//                }
             }
 
             composable("onboarding2") {
@@ -68,7 +67,7 @@ fun navgraph(viewModel: SignInViewModel)
                 SignInScreen(viewModel = viewModel) {
                     viewModel.viewModelScope.launch {
                         delay(5000)
-                        if(viewModel.isLoggedIn.value==true) navController.navigate("main"){popUpTo("signin") {
+                        if(canlogin) navController.navigate("main"){popUpTo("onboarding2") {
                             inclusive = true
                         }} else  navController.navigate("signup")
 
