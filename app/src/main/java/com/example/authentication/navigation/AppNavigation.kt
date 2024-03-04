@@ -70,7 +70,7 @@ fun AppNavigation(viewModel: SignInViewModel) {
             }
 
             val navigateToSignUpLambda = remember { { Log.d("Navigation", "Navigating to signup from lambda") ; navController.navigate("signup") }  }
-            SignInScreen(viewModelI, navigateToSignUpLambda)
+            //SignInScreen(viewModelI, navigateToSignUpLambda)
 
         }
         composable("signup") {

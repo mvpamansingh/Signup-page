@@ -35,7 +35,9 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
 
         if (isPreviouslySignedIn)
         {
+            //_isLoggedIn.value = true
             _isLoggedIn.value = isPreviouslySignedIn
+            _isLoggedIn.value = true
         }
     }
 

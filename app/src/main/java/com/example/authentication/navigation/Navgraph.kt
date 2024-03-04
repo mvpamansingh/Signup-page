@@ -3,6 +3,8 @@ package com.example.authentication.navigation
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
@@ -26,7 +28,7 @@ fun navgraph(viewModel: SignInViewModel, canlogin:Boolean)
 {
     val navController = rememberNavController()
     val onboardingFinished = remember { mutableStateOf(false) }
-
+    //val uiState by viewModel.isLoggedIn.collectAsState()
     NavHost(navController = navController, startDestination = "auth") {
 
         navigation(
@@ -61,26 +63,33 @@ fun navgraph(viewModel: SignInViewModel, canlogin:Boolean)
                 }
             }
             composable("signin") {
-               // val viewModel = it.sharedViewModel<SignInViewModel>(navController)
+                //val viewModell = it.sharedViewModel<SignInViewModel>(navController)
+
+                //val uiState by viewModel.isLoggedIn.collectAsState()
+                SignInScreen(
+                    viewModel = viewModel,
+                    navigateToSignUp = { navController.navigate("signup") },
+                    navController = navController
+                )
 
 
-                SignInScreen(viewModel = viewModel) {
-                    viewModel.viewModelScope.launch {
-                        delay(5000)
-                        if(canlogin) navController.navigate("main"){popUpTo("onboarding2") {
-                            inclusive = true
-                        }} else  navController.navigate("signup")
-
-                    }
-                    }
-
-
+//                    // Check isLoggedIn to determine navigation (remove hardcoded delay)
+//                    if(uiState) {
+//                        navController.navigate("main"){
+//                            popUpTo("onboarding2")
+//                        }
+//                    } else {
+//                        navController.navigate("signup")
+//                    }
+//                }
 
             }
-            composable("signup") {
-                //val viewModel = it.sharedViewModel<SignupViewModel>(navController)
 
-                val viewModelu = viewModel<SignupViewModel>()
+
+            composable("signup") {
+                val viewModelu = it.sharedViewModel<SignupViewModel>(navController)
+
+              // val viewModelu = viewModel<SignupViewModel>()
                 SignupScreen(viewModel = viewModelu) {
                     navController.navigate("signin")
                 }
@@ -111,11 +120,11 @@ fun navgraph(viewModel: SignInViewModel, canlogin:Boolean)
 
 
 
-//@Composable
-//inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(navController: NavController): T {
-//    val navGraphRoute = destination.parent?.route ?: return viewModel()
-//    val parentEntry = remember(this) {
-//        navController.getBackStackEntry(navGraphRoute)
-//    }
-//    return viewModel(parentEntry)
-//}
+@Composable
+inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(navController: NavController): T {
+    val navGraphRoute = destination.parent?.route ?: return viewModel()
+    val parentEntry = remember(this) {
+        navController.getBackStackEntry(navGraphRoute)
+    }
+    return viewModel(parentEntry)
+}
