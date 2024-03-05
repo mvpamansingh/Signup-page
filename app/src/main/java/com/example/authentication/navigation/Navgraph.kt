@@ -24,12 +24,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun navgraph(viewModel: SignInViewModel, canlogin:Boolean)
+fun navgraph(viewModel: SignInViewModel, isLoggedIn:String)
 {
     val navController = rememberNavController()
     val onboardingFinished = remember { mutableStateOf(false) }
     //val uiState by viewModel.isLoggedIn.collectAsState()
-    NavHost(navController = navController, startDestination = "auth") {
+    NavHost(navController = navController, startDestination = if(isLoggedIn=="main") "main" else "auth") {
 
         navigation(
             startDestination = "onboarding",

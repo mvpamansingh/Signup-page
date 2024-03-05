@@ -13,6 +13,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +39,7 @@ class MainActivity : ComponentActivity() {
                 setKeepOnScreenCondition{
 
                     !splashviewModel.isReady.value
+
                 }
             setOnExitAnimationListener{screen->
                 val zoomX= ObjectAnimator.ofFloat(
@@ -76,7 +79,8 @@ class MainActivity : ComponentActivity() {
 //                    val application = LocalContext.current.applicationContext as Application
                     val signInViewModel = viewModel<SignInViewModel>(factory = ViewModelProvider.AndroidViewModelFactory(application))
 //                    AppNavigation(viewModel =signInViewModel )
-                    navgraph(viewModel = signInViewModel, canlogin = signInViewModel.isLoggedIn.value)
+                val navigate by splashviewModel.navigateasstateflow.collectAsState()
+                    navgraph(viewModel = signInViewModel,navigate )
 
                 }
             }
